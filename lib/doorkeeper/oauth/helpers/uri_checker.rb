@@ -21,8 +21,8 @@ module Doorkeeper
         end
 
         def self.valid_for_authorization?(url, client_url, whitelist_uri=nil)
-          (valid?(url) && client_url.split.any? { |other_url| matches?(url, other_url) }) || 
-          (valid?(url) && whitelist_uri.split.include?(url))
+          whitelist_urls = whitelist_uri ? (valid?(url) && whitelist_uri.split.include?(url)) : true
+          (valid?(url) && client_url.split.any? { |other_url| matches?(url, other_url) }) || whitelist_urls
         end
 
         def self.as_uri(url)
